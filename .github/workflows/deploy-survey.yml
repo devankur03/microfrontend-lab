@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'survery-app/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
