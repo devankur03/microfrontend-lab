@@ -1,0 +1,39 @@
+name: Deploy Shell App
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'shell-app/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: shell-app
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: shell-app/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+        env:
+          FEEDBACK_APP_URL: ${{ secrets.FEEDBACK_APP_URL }}
+          SURVEY_APP_URL: ${{ secrets.SURVEY_APP_URL }}
+
+      - name: Deploy to Surge
+        run: npx surge ./dist ${{ secrets.MAIN_APP_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
