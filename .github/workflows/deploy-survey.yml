@@ -35,5 +35,10 @@ jobs:
         env:
           SURVEY_APP_URL: ${{ secrets.SURVEY_APP_URL }}
 
+      - name: Check build output
+        run: |
+          ls -la
+          ls -la dist
+
       - name: Deploy to Surge
         run: npx surge ./dist ${{ secrets.SURVEY_APP_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}

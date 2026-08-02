@@ -35,5 +35,10 @@ jobs:
         env:
           FEEDBACK_APP_URL: ${{ secrets.FEEDBACK_APP_URL }}
 
+      - name: Check build output
+        run: |
+          ls -la
+          ls -la dist
+
       - name: Deploy to Surge
         run: npx surge ./dist ${{ secrets.FEEDBACK_APP_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
