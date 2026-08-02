@@ -42,5 +42,9 @@ jobs:
           ls -la dist
           cat dist/index.html
 
+      - name: Check domain
+        run: |
+          echo "Domain is: '${{ secrets.MAIN_APP_DOMAIN }}'"
+
       - name: Deploy to Surge
         run: npx surge ./dist ${{ secrets.MAIN_APP_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
